@@ -13,6 +13,7 @@ public class BaseVo {
 
     @ApiModelProperty("每页数量")
     private Integer pageSize;
+
     @ApiModelProperty("页码")
     private Integer page;
 

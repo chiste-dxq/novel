@@ -74,9 +74,7 @@ public class LogAspect extends BaseAspect {
             sysLogs.setIp(System.getProperties().getOrDefault("url","0.0.0.0").toString());
             getControllerMethodDescription(controllerLog,sysLogs);
             sjSysLogsService.insert(sysLogs);
-        }
-        catch (Exception exp)
-        {
+        } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
