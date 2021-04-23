@@ -74,7 +74,7 @@ public class GenUtils {
         }
     }
 
-    public static void main(String[] args){
-        genCode();
-    }
+//    public static void main(String[] args){
+//        genCode();
+//    }
 }

@@ -27,6 +27,10 @@ public class DateUtils {
         return strtodate;
     }
 
+    public static Date getNow(){
+        return new Date();
+    }
+
     /**
      * 日期型字符串转化为日期 格式
      */
