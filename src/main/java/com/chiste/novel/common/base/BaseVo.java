@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class BaseVo {
 
-    @ApiModelProperty("每页数量")
+    @ApiModelProperty("每一页的数量")
     private Integer pageSize;
 
     @ApiModelProperty("页码")

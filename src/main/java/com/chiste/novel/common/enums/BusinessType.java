@@ -4,50 +4,60 @@ public enum BusinessType {
     /**
      * 其它
      */
-    OTHER,
+    OTHER("other"),
 
     /**
      * 新增
      */
-    INSERT,
+    INSERT("insert"),
 
     /**
      * 修改
      */
-    UPDATE,
+    UPDATE("update"),
 
     /**
      * 删除
      */
-    DELETE,
+    DELETE("delete"),
 
     /**
      * 授权
      */
-    GRANT,
+    GRANT("grant"),
 
     /**
      * 导出
      */
-    EXPORT,
+    EXPORT("export"),
 
     /**
      * 导入
      */
-    IMPORT,
+    IMPORT("import"),
 
     /**
      * 强退
      */
-    FORCE,
+    FORCE("force"),
 
     /**
      * 生成代码
      */
-    GENCODE,
+    GENCODE("gencode"),
 
     /**
      * 清空
      */
-    CLEAN,
+    CLEAN("clean");
+
+    private String type;
+
+    BusinessType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
