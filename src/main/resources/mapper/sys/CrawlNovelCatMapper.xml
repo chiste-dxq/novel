@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chiste.novel.mapper.crawl.CrawlNovelCatMapper" >
+  <resultMap id="BaseResultMap" type="com.chiste.novel.domain.crawl.CrawlNovelCat" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="cat_href" property="catHref" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, source_id, cat_name, cat_href
+  </sql>
+
+  <insert id="batchInsertCat" keyProperty="id" useGeneratedKeys="true" parameterType="com.chiste.novel.domain.crawl.CrawlNovelCat">
+    insert into t_crawl_novel_cat
+    (source_id,cat_name,cat_href)
+    values
+    <foreach collection ="catList" item="cat" separator =",">
+      (
+      #{cat.sourceId},#{cat.catName},#{cat.catHref}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

@@ -58,7 +58,8 @@ public class JwtUtils {
         // 附带username信息
         return JWT.create()
                 .withClaim("userCode", userCode)
-                .withExpiresAt(date)
+                // TODO: 2021/4/26 开发阶段token不设置过期时间，方便开发，后期设置 
+//                .withExpiresAt(date)
                 .sign(algorithm);
     }
 

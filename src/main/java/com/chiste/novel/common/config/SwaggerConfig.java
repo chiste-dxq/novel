@@ -35,7 +35,7 @@ public class SwaggerConfig{
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //设置文档标题(API名称)
-                .title("SpringBoot中使用Swagger2接口规范")
+                .title("novel接口文档-v1.0.0")
                 //文档描述
                 .description("接口说明")
                 //服务条款URL
