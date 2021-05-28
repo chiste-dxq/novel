@@ -15,7 +15,7 @@ public class RandomValidateCodeUtils {
 
 
     public static final String RANDOMCODEKEY = "RANDOMVALIDATECODEKEY";//放到session中的key
-    private String randString = "0123456789";//随机产生只有数字的字符串 private String
+    private static String randString = "0123456789";//随机产生只有数字的字符串 private String
     //private String randString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生只有字母的字符串
     //private String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生数字与字母组合的字符串
     private int width = 95;// 图片宽
@@ -113,7 +113,20 @@ public class RandomValidateCodeUtils {
     /**
      * 获取随机的字符
      */
-    public String getRandomString(int num) {
+    public static String getRandomString(int num) {
         return String.valueOf(randString.charAt(num));
+    }
+
+    public static String getRandomNum(int length) {
+        String base = "0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < length; ++i) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+
+        return sb.toString();
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chiste.novel.mapper.novel.NovelCatMapper" >
+  <resultMap id="BaseResultMap" type="com.chiste.novel.domain.novel.NovelCat" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cat_code" property="catCode" jdbcType="VARCHAR" />
+    <result column="cat_name" property="catName" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, cat_code, cat_name, sort, create_time, create_user, update_time, update_user
+  </sql>
+
+  <select id="findNovelCatByName" parameterType="java.lang.String" resultType="com.chiste.novel.domain.novel.NovelCat">
+    SELECT * from t_novel_cat where cat_name=#{name}
+  </select>
+</mapper>

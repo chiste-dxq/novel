@@ -58,6 +58,9 @@ public class Novel implements Serializable {
     @Column(name = "`type`")
     private Integer type;
 
+    @Transient
+    private String typeString;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -236,5 +239,13 @@ public class Novel implements Serializable {
      */
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getTypeString() {
+        return typeString;
+    }
+
+    public void setTypeString(String typeString) {
+        this.typeString = typeString;
     }
 }

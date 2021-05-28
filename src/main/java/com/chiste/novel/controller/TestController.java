@@ -1,62 +1,74 @@
 package com.chiste.novel.controller;
 
-import com.chiste.novel.domain.novel.Novel;
-import com.chiste.novel.service.novel.NovelService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import java.util.Date;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /*
  * @Author: daixq
- * @Date: 2021/4/21 16:46
+ * @Date: 2021/5/28 9:20
  * @Description:
  **/
 @RestController
-@RequestMapping("/test")
-@Api(tags = "测试接口" ,value = "测试接口")
+@RequestMapping("/api/test")
 public class TestController {
 
-    @Resource
-    private NovelService novelService;
-
-    @GetMapping("/test")
-    @ApiOperation("获取角色数据")
-    public void querySysRole(){
-        Long startTime, endTime;
-        System.out.println("小爬虫开始了。。。。。。。。。。。");
-        startTime = new Date().getTime();
-        Document document;
-
+    @PostMapping("/uploadFile")
+    public void uploadFile(@RequestParam("uploadFile") MultipartFile uploadFile){
         try {
-            document = Jsoup.connect("http://book.qidian.com/info/1006141474#Catalog").get();
-            Novel novel = new Novel();
-            String fictionName = document.select("h1>em").text();
-            novel.setTitle(fictionName);
-
-            Elements results = document.select("a[data-cid]");
-            for (Element e : results) {
-                String fictionChapter = e.text();
-                //只获取url不获取文字
-                String fictionUrl = e.attr("abs:href");
-                novel.setIntroduction(fictionUrl);
-                novel.setSource(1);
-                novelService.insert(novel);
-            }
+            multipartFileToFile(uploadFile);
+            System.out.println("转换完成！");
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        endTime = new Date().getTime();
-        System.out.println("小爬虫结束了，用时" + (endTime - startTime) + "ms");
     }
 
+    public File multipartFileToFile(MultipartFile file) throws Exception {
+
+        File toFile = null;
+        if (file.equals("") || file.getSize() <= 0) {
+            file = null;
+        } else {
+            InputStream ins = null;
+            ins = file.getInputStream();
+            toFile = new File("D://"+file.getOriginalFilename());
+            inputStreamToFile(ins, toFile);
+            ins.close();
+        }
+        return toFile;
+    }
+
+    //获取流文件
+    private static void inputStreamToFile(InputStream ins, File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 删除本地临时文件
+     * @param file
+     */
+    public static void delteTempFile(File file) {
+        if (file != null) {
+            File del = new File(file.toURI());
+            del.delete();
+        }
+    }
 }

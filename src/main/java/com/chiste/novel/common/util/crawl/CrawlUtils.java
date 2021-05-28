@@ -1,8 +1,11 @@
 package com.chiste.novel.common.util.crawl;
 
+import com.chiste.novel.common.util.DateUtils;
+import com.chiste.novel.common.util.RegexUtils;
 import com.chiste.novel.common.util.RestTemplateUtil;
 import com.chiste.novel.domain.crawl.CrawlNovelCat;
 import com.chiste.novel.domain.crawl.CrawlSource;
+import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.RuleBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,22 +52,51 @@ public class CrawlUtils {
         return lists;
     }
 
-    public static void parseBookList(Integer catId, RuleBean ruleBean,Integer sourceId){
-
+    public static List<Novel> parseBookList(Integer catId, RuleBean ruleBean,Integer sourceId){
+        List<Novel> list = new ArrayList<>();
         int page = 1;
-        int totalPage = page;
-        //按拼接分类URL
-        String bookListUrl = ruleBean.getBookListUrl()
-                .replace("{catUrl}",ruleBean.getCatUrlRule().get("catId"+catId))
-                .replace("{pageUrl}","index_"+page+".html");
-        try {
-            Document document = Jsoup.connect(bookListUrl).get();
-            Element div = document.getElementById("catalog");
-            Elements elements = div.select("a[class='img']");
-            String bookName = elements.attr("href");
-        } catch (IOException e) {
-            e.printStackTrace();
+        while(true){
+            //按拼接分类URL
+            String bookListUrl = ruleBean.getBookListUrl()
+                    .replace("{catUrl}",ruleBean.getCatUrlRule().get("catId"+catId))
+                    .replace("{pageUrl}","index_"+page+".html");
+            try {
+                Document document = Jsoup.connect(bookListUrl).get();
+                if(page == 3){
+                    break;
+                }
+                Element div = document.getElementById("catalog");
+                Elements listbg = div.select("div[class='listbg']");
+                for(Element element : listbg){
+                    Novel novel = new Novel();
+                    String bookName = element.select("a[class='img']").attr("title");
+                    String bookUrl = element.select("a[class='img']").attr("href");
+//                Element item = element.selectFirst("span[class='mainGreen']");
+                    Document bookDocument = Jsoup.connect(ruleBean.getBookDetailUrl().replace("{bookId}",bookUrl)).get();
+                    String introduction = RegexUtils.contentRegex(bookDocument.getElementById("mainSoftIntro").text());
+                    Elements trol = bookDocument.getElementsByClass("downInfoRowL");
+                    Elements lis = trol.select("li");
+//                String size = RegexUtils.liRegex(lis.get(2).text());
+                    String type = lis.get(1).text().substring(5);
+
+                    novel.setAuditor(lis.get(0).selectFirst("a").text());
+                    novel.setTypeString(type);
+                    novel.setIntroduction(introduction);
+                    novel.setTitle(bookName);
+                    novel.setCreateTime(DateUtils.getNow());
+                    novel.setUpdateTime(DateUtils.getNow());
+                    novel.setCreateUser("0");
+                    novel.setSource(sourceId);
+                    novel.setUpdateUser("0");
+                    list.add(novel);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            page++;
         }
+
+        return list;
     }
 
     public static String getByHttpClientWithChrome(String url){
