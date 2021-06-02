@@ -4,7 +4,6 @@ package com.chiste.novel.common.job;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

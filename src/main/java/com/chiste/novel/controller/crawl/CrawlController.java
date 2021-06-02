@@ -9,6 +9,7 @@ import com.chiste.novel.domain.crawl.vo.CrawlBeginReqVo;
 import com.chiste.novel.domain.crawl.vo.CrawlSourceReqVo;
 import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.RuleBean;
+import com.chiste.novel.domain.novel.vo.NovelAddVo;
 import com.chiste.novel.service.crawl.CrawlNovelCatService;
 import com.chiste.novel.service.crawl.CrawlSourceService;
 import com.chiste.novel.service.novel.NovelService;
@@ -17,7 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 
 /*
@@ -48,9 +48,9 @@ public class CrawlController {
     public ResultMap beginCrawl(@RequestBody CrawlBeginReqVo reqVo){
         CrawlSource crawlSource = crawlSourceService.selectCrawlSourceById(reqVo.getSourceId());
         RuleBean ruleBean = JSON.parseObject(crawlSource.getCrawlRule(),RuleBean.class);
-        List<Novel> novels = CrawlUtils.parseBookList(reqVo.getCatId(),ruleBean,reqVo.getSourceId());
+        List<NovelAddVo> novels = CrawlUtils.parseBookList(reqVo.getCatId(),ruleBean,reqVo.getSourceId());
         novels.stream().forEach(novel -> {
-            novelService.insert(novel);
+            novelService.insertNovel(novel);
         });
         return ResultUtils.success();
     }

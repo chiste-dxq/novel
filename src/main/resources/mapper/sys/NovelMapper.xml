@@ -24,4 +24,33 @@
     id, title, introduction, auditor, create_time, create_user, update_time, update_user, 
     source, is_delete, type
   </sql>
+
+  <insert id="insertNovel" parameterType="com.chiste.novel.domain.novel.vo.NovelAddVo" useGeneratedKeys="true" keyProperty="id">
+    insert into t_novel(
+    <if test="id!=null">id,</if>
+    <if test="title!=null and title!=''">title,</if>
+    <if test="introduction!=null and introduction!=''">introduction,</if>
+    <if test="auditor!=null and auditor!=''">auditor,</if>
+    <if test="createTime!=null">create_time,</if>
+    <if test="createUser!=null and createUser!=''">create_user,</if>
+    <if test="updateTime!=null">update_time,</if>
+    <if test="updateUser!=null and updateUser!=''">update_user,</if>
+    <if test="source!=null and source!=''">`source`,</if>
+    <if test="isDelete!=null and isDelete!=''">is_delete,</if>
+    <if test="type!=null and type!=''">type,</if>
+    )values(
+    <if test="id!=null">#{id},</if>
+    <if test="title!=null and title!=''">#{title},</if>
+    <if test="introduction!=null and introduction!=''">#{introduction},</if>
+    <if test="auditor!=null and auditor!=''">#{auditor},</if>
+    <if test="createTime!=null">#{createTime},</if>
+    <if test="createUser!=null and createUser!=''">#{createUser},</if>
+    <if test="updateTime!=null">#{updateTime},</if>
+    <if test="updateUser!=null and updateUser!=''">#{updateUser},</if>
+    <if test="source!=null and source!=''">#{source},</if>
+    <if test="isDelete!=null and isDelete!=''">#{isDelete},</if>
+    <if test="type!=null and type!=''">#{type},</if>
+    )
+
+  </insert>
 </mapper>

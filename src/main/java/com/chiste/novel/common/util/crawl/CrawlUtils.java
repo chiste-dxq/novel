@@ -7,6 +7,7 @@ import com.chiste.novel.domain.crawl.CrawlNovelCat;
 import com.chiste.novel.domain.crawl.CrawlSource;
 import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.RuleBean;
+import com.chiste.novel.domain.novel.vo.NovelAddVo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +15,12 @@ import org.jsoup.select.Elements;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -52,8 +58,8 @@ public class CrawlUtils {
         return lists;
     }
 
-    public static List<Novel> parseBookList(Integer catId, RuleBean ruleBean,Integer sourceId){
-        List<Novel> list = new ArrayList<>();
+    public static List<NovelAddVo> parseBookList(Integer catId, RuleBean ruleBean, Integer sourceId){
+        List<NovelAddVo> list = new ArrayList<>();
         int page = 1;
         while(true){
             //按拼接分类URL
@@ -68,10 +74,9 @@ public class CrawlUtils {
                 Element div = document.getElementById("catalog");
                 Elements listbg = div.select("div[class='listbg']");
                 for(Element element : listbg){
-                    Novel novel = new Novel();
+                    NovelAddVo novel = new NovelAddVo();
                     String bookName = element.select("a[class='img']").attr("title");
                     String bookUrl = element.select("a[class='img']").attr("href");
-//                Element item = element.selectFirst("span[class='mainGreen']");
                     Document bookDocument = Jsoup.connect(ruleBean.getBookDetailUrl().replace("{bookId}",bookUrl)).get();
                     String introduction = RegexUtils.contentRegex(bookDocument.getElementById("mainSoftIntro").text());
                     Elements trol = bookDocument.getElementsByClass("downInfoRowL");
@@ -88,6 +93,15 @@ public class CrawlUtils {
                     novel.setCreateUser("0");
                     novel.setSource(sourceId);
                     novel.setUpdateUser("0");
+                    String readUrl = bookDocument.selectFirst("li[class='yuedu']").selectFirst("a").attr("href").replace("1.","{index}.");
+                    readUrl = ruleBean.getBookDetailUrl().replace("{bookId}",readUrl);
+                    int i=1;
+                    Document content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
+                    while(content.getElementById("view_content_txt")!=null){
+                        fileAdd("D://novel//"+bookName+".txt",RegexUtils.contentRegex(content.getElementById("view_content_txt").text()));
+                        i++;
+                        content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
+                    }
                     list.add(novel);
                 }
             } catch (IOException e) {
@@ -115,6 +129,28 @@ public class CrawlUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void fileAdd(String fileName, String content) {
+        try{
+            File file = new File(fileName);
+            FileOutputStream fos = null;
+            if(!file.exists()){
+                file.createNewFile();//如果文件不存在，就创建该文件
+                fos = new FileOutputStream(file);//首次写入获取
+            }else{
+                //如果文件已存在，那么就在文件末尾追加写入
+                fos = new FileOutputStream(file,true);//这里构造方法多了一个参数true,表示在文件末尾追加写入
+            }
+
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");//指定以UTF-8格式写入文件
+
+            osw.write(content+",");
+            //写入完成关闭流
+            osw.close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
