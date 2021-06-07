@@ -58,57 +58,60 @@ public class CrawlUtils {
         return lists;
     }
 
-    public static List<NovelAddVo> parseBookList(Integer catId, RuleBean ruleBean, Integer sourceId){
+    public static List<NovelAddVo> parseBookList(RuleBean ruleBean, Integer sourceId,List<CrawlNovelCat> cats){
         List<NovelAddVo> list = new ArrayList<>();
         int page = 1;
-        while(true){
-            //按拼接分类URL
-            String bookListUrl = ruleBean.getBookListUrl()
-                    .replace("{catUrl}",ruleBean.getCatUrlRule().get("catId"+catId))
-                    .replace("{pageUrl}","index_"+page+".html");
-            try {
-                Document document = Jsoup.connect(bookListUrl).get();
-                if(page == 3){
-                    break;
-                }
-                Element div = document.getElementById("catalog");
-                Elements listbg = div.select("div[class='listbg']");
-                for(Element element : listbg){
-                    NovelAddVo novel = new NovelAddVo();
-                    String bookName = element.select("a[class='img']").attr("title");
-                    String bookUrl = element.select("a[class='img']").attr("href");
-                    Document bookDocument = Jsoup.connect(ruleBean.getBookDetailUrl().replace("{bookId}",bookUrl)).get();
-                    String introduction = RegexUtils.contentRegex(bookDocument.getElementById("mainSoftIntro").text());
-                    Elements trol = bookDocument.getElementsByClass("downInfoRowL");
-                    Elements lis = trol.select("li");
-//                String size = RegexUtils.liRegex(lis.get(2).text());
-                    String type = lis.get(1).text().substring(5);
-
-                    novel.setAuditor(lis.get(0).selectFirst("a").text());
-                    novel.setTypeString(type);
-                    novel.setIntroduction(introduction);
-                    novel.setTitle(bookName);
-                    novel.setCreateTime(DateUtils.getNow());
-                    novel.setUpdateTime(DateUtils.getNow());
-                    novel.setCreateUser("0");
-                    novel.setSource(sourceId);
-                    novel.setUpdateUser("0");
-                    String readUrl = bookDocument.selectFirst("li[class='yuedu']").selectFirst("a").attr("href").replace("1.","{index}.");
-                    readUrl = ruleBean.getBookDetailUrl().replace("{bookId}",readUrl);
-                    int i=1;
-                    Document content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
-                    while(content.getElementById("view_content_txt")!=null){
-                        fileAdd("D://novel//"+bookName+".txt",RegexUtils.contentRegex(content.getElementById("view_content_txt").text()));
-                        i++;
-                        content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
+        for(CrawlNovelCat cat : cats){
+            while(true){
+                //按拼接分类URL
+                String bookListUrl = ruleBean.getBookListUrl()
+                        .replace("{catUrl}",ruleBean.getCatUrlRule().get("catId"+cat.getId()))
+                        .replace("{pageUrl}","index_"+page+".html");
+                try {
+                    Document document = Jsoup.connect(bookListUrl).get();
+                    if(page == 6){
+                        break;
                     }
-                    list.add(novel);
+                    Element div = document.getElementById("catalog");
+                    Elements listbg = div.select("div[class='listbg']");
+                    for(Element element : listbg){
+                        NovelAddVo novel = new NovelAddVo();
+                        String bookName = element.select("a[class='img']").attr("title");
+                        String bookUrl = element.select("a[class='img']").attr("href");
+                        Document bookDocument = Jsoup.connect(ruleBean.getBookDetailUrl().replace("{bookId}",bookUrl)).get();
+                        String introduction = RegexUtils.contentRegex(bookDocument.getElementById("mainSoftIntro").text());
+                        Elements trol = bookDocument.getElementsByClass("downInfoRowL");
+                        Elements lis = trol.select("li");
+//                String size = RegexUtils.liRegex(lis.get(2).text());
+                        String type = lis.get(1).text().substring(5);
+
+                        novel.setAuditor(lis.get(0).selectFirst("a").text());
+                        novel.setTypeString(type);
+                        novel.setIntroduction(introduction);
+                        novel.setTitle(bookName);
+                        novel.setCreateTime(DateUtils.getNow());
+                        novel.setUpdateTime(DateUtils.getNow());
+                        novel.setCreateUser("0");
+                        novel.setSource(sourceId);
+                        novel.setUpdateUser("0");
+                        String readUrl = bookDocument.selectFirst("li[class='yuedu']").selectFirst("a").attr("href").replace("1.","{index}.");
+                        readUrl = ruleBean.getBookDetailUrl().replace("{bookId}",readUrl);
+                        int i=1;
+                        Document content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
+                        while(content.getElementById("view_content_txt")!=null){
+                            fileAdd("D://novel//"+cat.getId()+"//"+bookName+".txt",RegexUtils.contentRegex(content.getElementById("view_content_txt").text()));
+                            i++;
+                            content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
+                        }
+                        list.add(novel);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                page++;
             }
-            page++;
         }
+
 
         return list;
     }

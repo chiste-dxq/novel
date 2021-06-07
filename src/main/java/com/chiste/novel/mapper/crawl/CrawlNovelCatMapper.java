@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CrawlNovelCatMapper extends Mapper<CrawlNovelCat> {
     int batchInsertCat(@Param("catList") List<CrawlNovelCat> list);
+
+    List<CrawlNovelCat> queryCrawlNovelCatBySourceId(Integer sourceId);
 }

@@ -25,4 +25,14 @@
     </foreach>
   </insert>
 
+  <select id="queryCrawlNovelCatBySourceId" parameterType="java.lang.Integer" resultType="com.chiste.novel.domain.crawl.CrawlNovelCat">
+    select
+        id,
+        source_id   sourceId,
+        cat_name    catName,
+        cat_href    catHref
+    from t_crawl_novel_cat
+    where source_id=#{sourceId}
+  </select>
+
 </mapper>

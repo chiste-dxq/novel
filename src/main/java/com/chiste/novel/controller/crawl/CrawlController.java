@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.chiste.novel.common.base.ResultMap;
 import com.chiste.novel.common.util.ResultUtils;
 import com.chiste.novel.common.util.crawl.CrawlUtils;
+import com.chiste.novel.domain.crawl.CrawlNovelCat;
 import com.chiste.novel.domain.crawl.CrawlSource;
 import com.chiste.novel.domain.crawl.vo.CrawlBeginReqVo;
 import com.chiste.novel.domain.crawl.vo.CrawlSourceReqVo;
 import com.chiste.novel.domain.novel.Novel;
+import com.chiste.novel.domain.novel.NovelCat;
 import com.chiste.novel.domain.novel.RuleBean;
 import com.chiste.novel.domain.novel.vo.NovelAddVo;
 import com.chiste.novel.service.crawl.CrawlNovelCatService;
@@ -48,7 +50,8 @@ public class CrawlController {
     public ResultMap beginCrawl(@RequestBody CrawlBeginReqVo reqVo){
         CrawlSource crawlSource = crawlSourceService.selectCrawlSourceById(reqVo.getSourceId());
         RuleBean ruleBean = JSON.parseObject(crawlSource.getCrawlRule(),RuleBean.class);
-        List<NovelAddVo> novels = CrawlUtils.parseBookList(reqVo.getCatId(),ruleBean,reqVo.getSourceId());
+        List<CrawlNovelCat> cats = crawlNovelCatService.queryCrawlNovelCatBySourceId(reqVo.getSourceId());
+        List<NovelAddVo> novels = CrawlUtils.parseBookList(ruleBean, reqVo.getSourceId(), cats);
         novels.stream().forEach(novel -> {
             novelService.insertNovel(novel);
         });

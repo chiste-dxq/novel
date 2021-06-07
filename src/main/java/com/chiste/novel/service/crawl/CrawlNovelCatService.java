@@ -12,4 +12,6 @@ import java.util.List;
 public interface CrawlNovelCatService {
 
     int batchInsertCat(List<CrawlNovelCat> list);
+
+    List<CrawlNovelCat> queryCrawlNovelCatBySourceId(Integer sourceId);
 }

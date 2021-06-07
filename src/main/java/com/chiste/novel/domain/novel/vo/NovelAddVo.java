@@ -34,7 +34,7 @@ public class NovelAddVo {
     @ApiModelProperty("来源1：系统；2：用户")
     private Integer source;
     @ApiModelProperty("是否删除")
-    private Integer delete;
+    private Integer isDelete;
     @ApiModelProperty("类型")
     private Integer type;
     @ApiModelProperty("类型文字")

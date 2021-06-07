@@ -23,4 +23,9 @@ public class CrawlNovelCatServiceImpl implements CrawlNovelCatService {
     public int batchInsertCat(List<CrawlNovelCat> list) {
         return crawlNovelCatMapper.batchInsertCat(list);
     }
+
+    @Override
+    public List<CrawlNovelCat> queryCrawlNovelCatBySourceId(Integer sourceId) {
+        return crawlNovelCatMapper.queryCrawlNovelCatBySourceId(sourceId);
+    }
 }
