@@ -57,7 +57,7 @@ public class CrawlController {
 
     @PostMapping("/beginCrawl")
     @ApiOperation("开启爬虫")
-    public ResultMap beginCrawl(@RequestBody CrawlBeginReqVo reqVo){
+    public void beginCrawl(@RequestBody CrawlBeginReqVo reqVo){
         CrawlSource crawlSource = crawlSourceService.selectCrawlSourceById(reqVo.getSourceId());
         RuleBean ruleBean = JSON.parseObject(crawlSource.getCrawlRule(),RuleBean.class);
         List<CrawlNovelCat> cats = crawlNovelCatService.queryCrawlNovelCatBySourceId(reqVo.getSourceId());
@@ -111,7 +111,6 @@ public class CrawlController {
                 pollingTime.set(0);
             }
         }.start();
-        return ResultUtils.success();
     }
 
 }
