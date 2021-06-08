@@ -1,11 +1,13 @@
 package com.chiste.novel.service.novel.impl;
 
 import com.chiste.novel.domain.novel.NovelContent;
+import com.chiste.novel.domain.novel.vo.NovelContentAddVo;
 import com.chiste.novel.mapper.novel.NovelContentMapper;
 import com.chiste.novel.service.novel.NovelContentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /*
  * @Author: daixq
@@ -21,5 +23,10 @@ public class NovelContentServiceImpl implements NovelContentService {
     @Override
     public int insertContent(NovelContent content) {
         return novelContentMapper.insertContent(content);
+    }
+
+    @Override
+    public int batchInsertNovelContent(List<NovelContentAddVo> list) {
+        return novelContentMapper.batchInsertNovelContent(list);
     }
 }

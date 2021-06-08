@@ -60,21 +60,27 @@ public class CrawlUtils {
 
     public static List<NovelAddVo> parseBookList(RuleBean ruleBean, Integer sourceId,List<CrawlNovelCat> cats){
         List<NovelAddVo> list = new ArrayList<>();
-        int page = 1;
+
         for(CrawlNovelCat cat : cats){
+            int page = 1;
             while(true){
                 //按拼接分类URL
                 String bookListUrl = ruleBean.getBookListUrl()
-                        .replace("{catUrl}",ruleBean.getCatUrlRule().get("catId"+cat.getId()))
+                        .replace("{catUrl}",cat.getCatHref())
                         .replace("{pageUrl}","index_"+page+".html");
                 try {
                     Document document = Jsoup.connect(bookListUrl).get();
-                    if(page == 6){
+                    if(page == 2){
                         break;
                     }
                     Element div = document.getElementById("catalog");
                     Elements listbg = div.select("div[class='listbg']");
+                    int count = 0;
                     for(Element element : listbg){
+                        count++;
+                        if(count==2){
+                            break;
+                        }
                         NovelAddVo novel = new NovelAddVo();
                         String bookName = element.select("a[class='img']").attr("title");
                         String bookUrl = element.select("a[class='img']").attr("href");

@@ -31,4 +31,13 @@
     <if test="novelId != null and novelId != ''">#{novel_id}</if>
     )
   </insert>
+
+  <insert id="batchInsertNovelContent" parameterType="com.chiste.novel.domain.novel.vo.NovelContentAddVo" keyProperty="id" useGeneratedKeys="true">
+    insert into t_novel_content (chapter,content,novel_id)
+    VALUES
+    <foreach collection="list" item="addVo" separator=",">
+      (#{addVo.chapter},#{addVo.content},#{addVo.novelId})
+    </foreach>
+
+  </insert>
 </mapper>

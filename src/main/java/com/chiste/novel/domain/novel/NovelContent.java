@@ -9,6 +9,9 @@ public class NovelContent implements Serializable {
     @Column(name = "`id`")
     private Integer id;
 
+    @Column(name = "`name`")
+    private String name;
+
     @Column(name = "`chapter`")
     private String chapter;
 
@@ -17,6 +20,9 @@ public class NovelContent implements Serializable {
 
     @Column(name = "`novel_id`")
     private Integer novelId;
+
+    @Column(name = "`number`")
+    private Integer Number;
 
     private static final long serialVersionUID = 1L;
 
@@ -74,5 +80,21 @@ public class NovelContent implements Serializable {
      */
     public void setNovelId(Integer novelId) {
         this.novelId = novelId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getNumber() {
+        return Number;
+    }
+
+    public void setNumber(Integer number) {
+        Number = number;
     }
 }
