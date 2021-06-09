@@ -45,7 +45,7 @@ public class FileUtils {
                 //小说内容类
 
                 while ((lineTxt = bufferedReader.readLine()) != null) {
-                    String pattern = "第(.{1,9})[章|节|卷|集|部|篇|回]";
+                    String pattern = "第([0-9]{1,})([章|节|卷|集|部|篇|回]){1}";
                     // 正则表达式
                     Pattern p = Pattern.compile(pattern);
                     Matcher matcher = p.matcher(lineTxt);

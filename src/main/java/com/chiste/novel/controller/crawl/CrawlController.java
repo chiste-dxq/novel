@@ -1,7 +1,9 @@
 package com.chiste.novel.controller.crawl;
 
 import com.alibaba.fastjson.JSON;
+import com.chiste.novel.common.annotion.Log;
 import com.chiste.novel.common.base.ResultMap;
+import com.chiste.novel.common.enums.BusinessType;
 import com.chiste.novel.common.util.FileUtils;
 import com.chiste.novel.common.util.ResultUtils;
 import com.chiste.novel.common.util.crawl.CrawlUtils;
@@ -50,6 +52,7 @@ public class CrawlController {
 
     @PostMapping("/batchInsert")
     @ApiOperation("批量添加爬虫源的章节分类url")
+    @Log(title="批量添加爬虫源的章节分类url", businessType = BusinessType.INSERT)
     public ResultMap batchInsert(@RequestBody CrawlSourceReqVo vo){
         crawlNovelCatService.batchInsertCat(CrawlUtils.getCats(crawlSourceService.selectCrawlSourceById(vo.getId())));
         return ResultUtils.success();
@@ -57,6 +60,7 @@ public class CrawlController {
 
     @PostMapping("/beginCrawl")
     @ApiOperation("开启爬虫")
+    @Log(title="开启爬虫", businessType = BusinessType.OTHER)
     public void beginCrawl(@RequestBody CrawlBeginReqVo reqVo){
         CrawlSource crawlSource = crawlSourceService.selectCrawlSourceById(reqVo.getSourceId());
         RuleBean ruleBean = JSON.parseObject(crawlSource.getCrawlRule(),RuleBean.class);
@@ -98,12 +102,9 @@ public class CrawlController {
                             /** 拆分章节操作结束 **/
 
                             // 整合数据提交至数据库
-                            int count = novelContentService.batchInsertNovelContent(list);
-
-                            if(count>0){
-                                cacheManager.clearByKey(key);
-                                log.info("{} 存储至数据库成功！",novelAddVo.getTitle());
-                            }
+                            novelContentService.batchInsertNovelContent(list);
+                            cacheManager.clearByKey(key);
+                            log.info("{} 存储至数据库成功！",novelAddVo.getTitle());
                         }
                     }
                 }

@@ -38,8 +38,9 @@
     <if test="updateUser!=null and updateUser!=''">update_user,</if>
     <if test="source!=null and source!=''">`source`,</if>
     <if test="isDelete!=null and isDelete!=''">is_delete,</if>
-    <if test="downloadUrl!=null and downloadUrl!=''">download_url,</if>
-    <if test="type!=null and type!=''">type</if>
+
+    <if test="type!=null and type!=''">type,</if>
+    <if test="downloadUrl!=null and downloadUrl!=''">download_url</if>
 
     )values(
     <if test="id!=null">#{id},</if>
@@ -52,9 +53,8 @@
     <if test="updateUser!=null and updateUser!=''">#{updateUser},</if>
     <if test="source!=null and source!=''">#{source},</if>
     <if test="isDelete!=null and isDelete!=''">#{isDelete},</if>
-    <if test="downloadUrl!=null and downloadUrl!=''">#{downloadUrl},</if>
-    <if test="type!=null and type!=''">#{type}</if>
-
+    <if test="type!=null and type!=''">#{type},</if>
+    <if test="downloadUrl!=null and downloadUrl!=''">#{downloadUrl}</if>
     )
 
   </insert>
@@ -65,12 +65,8 @@
           title,
           introduction,
           auditor,
-          create_time,
-          create_user,
-          update_time,
-          update_user,
           source,
-          is_delete,
+          is_delete isDelete,
           type
         from t_novel
         <where>

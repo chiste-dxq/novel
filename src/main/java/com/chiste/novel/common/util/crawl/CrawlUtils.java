@@ -72,7 +72,7 @@ public class CrawlUtils {
                     int count = 0;
                     for(Element element : listbg){
                         count++;
-                        if(count==5){
+                        if(count==6){
                             break;
                         }
                         NovelAddVo novel = new NovelAddVo();
@@ -86,7 +86,7 @@ public class CrawlUtils {
 
                         novel.setAuditor(lis.get(0).selectFirst("a").text());
                         novel.setTypeString(type);
-                        novel.setIntroduction(introduction);
+                        novel.setIntroduction(introduction.replaceAll("//s+",""));
                         novel.setTitle(bookName);
                         novel.setCreateTime(DateUtils.getNow());
                         novel.setUpdateTime(DateUtils.getNow());

@@ -27,6 +27,27 @@ public class NovelContentServiceImpl implements NovelContentService {
 
     @Override
     public int batchInsertNovelContent(List<NovelContentAddVo> list) {
-        return novelContentMapper.batchInsertNovelContent(list);
+        int count = 0;
+        int startIndex = 0;
+        int endIndex;
+
+        //limit标识，每次截取10个
+        int limit = 10;
+        int size = list.size();
+
+        //每次截取的开始位置小于总长度，才会继续执行
+        while (startIndex < size) {
+            //尾部的位置
+            endIndex = startIndex + limit;
+            //尾部位置不能超出范围，否则就取集合的长度
+            endIndex = endIndex > size ? size : endIndex;
+            //截取
+            List<NovelContentAddVo> subList = list.subList(startIndex, endIndex);
+            novelContentMapper.batchInsertNovelContent(subList);
+            //计算下次截取的开始位置
+            startIndex = endIndex;
+
+        }
+        return count;
     }
 }

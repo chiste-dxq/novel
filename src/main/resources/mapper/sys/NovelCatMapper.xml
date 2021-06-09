@@ -24,4 +24,8 @@
   <select id="findNovelCatByName" parameterType="java.lang.String" resultType="com.chiste.novel.domain.novel.NovelCat">
     SELECT * from t_novel_cat where cat_name=#{name}
   </select>
+
+  <select id="queryNovelCat" resultType="com.chiste.novel.domain.novel.vo.NovelCatReqVo">
+    select id, cat_code catCode, cat_name catName, sort from t_novel_cat
+  </select>
 </mapper>

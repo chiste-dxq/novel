@@ -52,7 +52,7 @@ public class Novel implements Serializable {
      * 是否删除
      */
     @Column(name = "`is_delete`")
-    private Integer delete;
+    private Integer isDelete;
 
     /**
      * 类型
@@ -211,24 +211,6 @@ public class Novel implements Serializable {
     }
 
     /**
-     * 获取是否删除
-     *
-     * @return is_delete - 是否删除
-     */
-    public Integer getIsDelete() {
-        return delete;
-    }
-
-    /**
-     * 设置是否删除
-     *
-     * @param delete 是否删除
-     */
-    public void setIsDelete(Integer delete) {
-        this.delete = delete;
-    }
-
-    /**
      * 获取类型
      *
      * @return type - 类型
@@ -260,5 +242,13 @@ public class Novel implements Serializable {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 }
