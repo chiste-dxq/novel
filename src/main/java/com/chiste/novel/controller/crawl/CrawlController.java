@@ -70,7 +70,7 @@ public class CrawlController {
                     cacheManager.putCache(String.valueOf(novel.getId()),novel,0);
                 });
             }
-        };
+        }.start();
         new Thread(){
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {

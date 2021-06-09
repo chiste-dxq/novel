@@ -1,5 +1,7 @@
 package com.chiste.novel.domain.novel;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -57,6 +59,9 @@ public class Novel implements Serializable {
      */
     @Column(name = "`type`")
     private Integer type;
+
+    @Column(name = "download_url")
+    private String downloadUrl;
 
     @Transient
     private String typeString;
@@ -247,5 +252,13 @@ public class Novel implements Serializable {
 
     public void setTypeString(String typeString) {
         this.typeString = typeString;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

@@ -5,9 +5,9 @@ import com.chiste.novel.common.util.RegexUtils;
 import com.chiste.novel.common.util.RestTemplateUtil;
 import com.chiste.novel.domain.crawl.CrawlNovelCat;
 import com.chiste.novel.domain.crawl.CrawlSource;
-import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.RuleBean;
 import com.chiste.novel.domain.novel.vo.NovelAddVo;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,21 +16,15 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*
  * @Author: daixq
  * @Date: 2021/4/26 10:31
  * @Description:
  **/
+@Slf4j
 public class CrawlUtils {
 
     private static RestTemplate restTemplate = RestTemplateUtil.getInstance("utf-8");
@@ -78,7 +72,7 @@ public class CrawlUtils {
                     int count = 0;
                     for(Element element : listbg){
                         count++;
-                        if(count==2){
+                        if(count==5){
                             break;
                         }
                         NovelAddVo novel = new NovelAddVo();
@@ -88,7 +82,6 @@ public class CrawlUtils {
                         String introduction = RegexUtils.contentRegex(bookDocument.getElementById("mainSoftIntro").text());
                         Elements trol = bookDocument.getElementsByClass("downInfoRowL");
                         Elements lis = trol.select("li");
-//                String size = RegexUtils.liRegex(lis.get(2).text());
                         String type = lis.get(1).text().substring(5);
 
                         novel.setAuditor(lis.get(0).selectFirst("a").text());
@@ -103,12 +96,20 @@ public class CrawlUtils {
                         String readUrl = bookDocument.selectFirst("li[class='yuedu']").selectFirst("a").attr("href").replace("1.","{index}.");
                         readUrl = ruleBean.getBookDetailUrl().replace("{bookId}",readUrl);
                         int i=1;
+                        String filepath = "D://novel//"+cat.getId()+"//"+bookName+".txt";
+                        File file = new File(filepath);
+                        //源文件已存在过
+                        if(file.exists()){
+                            log.info("{} 已存在过,跳过该文件！",bookName);
+                            break;
+                        }
                         Document content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
                         while(content.getElementById("view_content_txt")!=null){
-                            fileAdd("D://novel//"+cat.getId()+"//"+bookName+".txt",RegexUtils.contentRegex(content.getElementById("view_content_txt").text()));
+                            fileAdd(filepath,RegexUtils.contentRegex(content.getElementById("view_content_txt").text()));
                             i++;
                             content = Jsoup.connect(readUrl.replace("{index}",i+"")).get();
                         }
+                        novel.setDownloadUrl(filepath);
                         list.add(novel);
                     }
                 } catch (IOException e) {

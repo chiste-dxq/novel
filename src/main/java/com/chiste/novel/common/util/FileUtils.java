@@ -1,6 +1,5 @@
 package com.chiste.novel.common.util;
 
-import com.chiste.novel.domain.novel.NovelContent;
 import com.chiste.novel.domain.novel.vo.NovelContentAddVo;
 
 import java.io.BufferedReader;

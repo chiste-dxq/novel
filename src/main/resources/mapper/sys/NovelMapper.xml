@@ -15,6 +15,7 @@
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="source" property="source" jdbcType="BIT" />
     <result column="is_delete" property="delete" jdbcType="BIT" />
+    <result column="download_url" property="downloadUrl" jdbcType="VARCHAR"/>
     <result column="type" property="type" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -22,7 +23,7 @@
       WARNING - @mbg.generated
     -->
     id, title, introduction, auditor, create_time, create_user, update_time, update_user, 
-    source, is_delete, type
+    source, is_delete, download_ur, type
   </sql>
 
   <insert id="insertNovel" parameterType="com.chiste.novel.domain.novel.vo.NovelAddVo" useGeneratedKeys="true" keyProperty="id">
@@ -37,7 +38,9 @@
     <if test="updateUser!=null and updateUser!=''">update_user,</if>
     <if test="source!=null and source!=''">`source`,</if>
     <if test="isDelete!=null and isDelete!=''">is_delete,</if>
+    <if test="downloadUrl!=null and downloadUrl!=''">download_url,</if>
     <if test="type!=null and type!=''">type</if>
+
     )values(
     <if test="id!=null">#{id},</if>
     <if test="title!=null and title!=''">#{title},</if>
@@ -49,8 +52,37 @@
     <if test="updateUser!=null and updateUser!=''">#{updateUser},</if>
     <if test="source!=null and source!=''">#{source},</if>
     <if test="isDelete!=null and isDelete!=''">#{isDelete},</if>
+    <if test="downloadUrl!=null and downloadUrl!=''">#{downloadUrl},</if>
     <if test="type!=null and type!=''">#{type}</if>
+
     )
 
   </insert>
+
+  <select id="queryNovel" parameterType="com.chiste.novel.domain.novel.vo.NovelListReqVo" resultType="com.chiste.novel.domain.novel.vo.NovelListResVo">
+        select
+          id,
+          title,
+          introduction,
+          auditor,
+          create_time,
+          create_user,
+          update_time,
+          update_user,
+          source,
+          is_delete,
+          type
+        from t_novel
+        <where>
+          <if test="title!=null and title!=''">
+            title like CONCAT('%',#{title},'%')
+          </if>
+          <if test="auditor!=null and auditor!=''">
+            auditor like CONCAT('%',#{auditor},'%')
+          </if>
+          <if test="catIds!=null and catIds!=''">
+            find_in_set(type,#{catIds})
+          </if>
+        </where>
+  </select>
 </mapper>

@@ -5,12 +5,15 @@ import com.chiste.novel.common.util.RandomValidateCodeUtils;
 import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.NovelCat;
 import com.chiste.novel.domain.novel.vo.NovelAddVo;
+import com.chiste.novel.domain.novel.vo.NovelListReqVo;
+import com.chiste.novel.domain.novel.vo.NovelListResVo;
 import com.chiste.novel.mapper.novel.NovelCatMapper;
 import com.chiste.novel.mapper.novel.NovelMapper;
 import com.chiste.novel.service.novel.NovelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /*
  * @Author: daixq
@@ -57,5 +60,10 @@ public class NovelServiceImpl implements NovelService {
         }
         addVo.setType(cat.getId());
         return novelMapper.insertNovel(addVo);
+    }
+
+    @Override
+    public List<NovelListResVo> queryNovel(NovelListReqVo reqVo) {
+        return novelMapper.queryNovel(reqVo);
     }
 }
