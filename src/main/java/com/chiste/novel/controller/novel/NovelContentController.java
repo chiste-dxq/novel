@@ -22,6 +22,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/api/novelContent")
+@Api(tags = "小说内容管理" ,value = "小说内容管理接口")
 public class NovelContentController {
 
     @Resource
