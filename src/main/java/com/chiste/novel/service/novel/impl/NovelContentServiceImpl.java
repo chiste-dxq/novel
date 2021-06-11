@@ -1,9 +1,12 @@
 package com.chiste.novel.service.novel.impl;
 
 import com.chiste.novel.domain.novel.NovelContent;
+import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelContentAddVo;
+import com.chiste.novel.domain.novel.vo.NovelContentListReqVo;
 import com.chiste.novel.mapper.novel.NovelContentMapper;
 import com.chiste.novel.service.novel.NovelContentService;
+import com.chiste.novel.service.novel.NovelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +22,8 @@ public class NovelContentServiceImpl implements NovelContentService {
 
     @Resource
     NovelContentMapper novelContentMapper;
+    @Resource
+    NovelService novelService;
 
     @Override
     public int insertContent(NovelContent content) {
@@ -49,5 +54,12 @@ public class NovelContentServiceImpl implements NovelContentService {
 
         }
         return count;
+    }
+
+    @Override
+    public NovelChapterResVo queryContentByNovelId(NovelContentListReqVo reqVo) {
+        NovelChapterResVo resVo = novelService.getNovelOne(reqVo.getId());
+        resVo.setContents(novelContentMapper.queryContentByNovelId(reqVo));
+        return resVo;
     }
 }

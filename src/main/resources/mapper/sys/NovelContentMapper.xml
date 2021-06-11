@@ -40,4 +40,19 @@
     </foreach>
 
   </insert>
+
+  <select id="queryContentByNovelId" parameterType="com.chiste.novel.domain.novel.vo.NovelContentListReqVo"
+          resultType="com.chiste.novel.domain.novel.vo.NovelContentListResVo">
+        select
+            id,
+            chapter,
+            content,
+            novel_id    novelId
+        from t_novel_content
+        <where>
+          <if test="id!=null">
+            novel_id=#{id}
+          </if>
+        </where>
+  </select>
 </mapper>

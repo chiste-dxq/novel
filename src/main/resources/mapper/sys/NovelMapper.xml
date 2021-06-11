@@ -81,4 +81,8 @@
           </if>
         </where>
   </select>
+
+  <select id="getNovelOne" parameterType="java.lang.Integer" resultType="com.chiste.novel.domain.novel.vo.NovelChapterResVo">
+    select id,title,auditor from t_novel where id=#{id}
+  </select>
 </mapper>

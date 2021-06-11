@@ -5,6 +5,7 @@ import com.chiste.novel.common.util.RandomValidateCodeUtils;
 import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.NovelCat;
 import com.chiste.novel.domain.novel.vo.NovelAddVo;
+import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelListReqVo;
 import com.chiste.novel.domain.novel.vo.NovelListResVo;
 import com.chiste.novel.mapper.novel.NovelCatMapper;
@@ -65,5 +66,10 @@ public class NovelServiceImpl implements NovelService {
     @Override
     public List<NovelListResVo> queryNovel(NovelListReqVo reqVo) {
         return novelMapper.queryNovel(reqVo);
+    }
+
+    @Override
+    public NovelChapterResVo getNovelOne(Integer id) {
+        return novelMapper.getNovelOne(id);
     }
 }
