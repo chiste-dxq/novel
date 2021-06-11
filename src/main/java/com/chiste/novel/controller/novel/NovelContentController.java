@@ -4,7 +4,6 @@ import com.chiste.novel.common.base.ResultMap;
 import com.chiste.novel.common.util.ResultUtils;
 import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelContentListReqVo;
-import com.chiste.novel.domain.novel.vo.NovelContentListResVo;
 import com.chiste.novel.service.novel.NovelContentService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /*
  * @Author: daixq

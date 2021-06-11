@@ -4,7 +4,6 @@ import com.chiste.novel.domain.novel.NovelContent;
 import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelContentAddVo;
 import com.chiste.novel.domain.novel.vo.NovelContentListReqVo;
-import com.chiste.novel.domain.novel.vo.NovelContentListResVo;
 
 import java.util.List;
 
