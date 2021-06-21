@@ -8,10 +8,7 @@ import com.chiste.novel.domain.novel.vo.NovelListReqVo;
 import com.chiste.novel.domain.novel.vo.NovelListResVo;
 import com.chiste.novel.service.novel.NovelService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,7 +33,9 @@ public class NovelController {
 
     @PostMapping("/getNovelDetail")
     @ApiOperation("获取小说详细信息")
-    public ResultMap<NovelDetailResVo> getNovelDetail(NovelDetailReqVo reqVo){
+    public ResultMap<NovelDetailResVo> getNovelDetail(@RequestParam("id") String id){
+        NovelDetailReqVo reqVo = new NovelDetailReqVo();
+        reqVo.setId(id);
         return ResultUtils.success(novelService.getNovelDetail(reqVo));
     }
 

@@ -19,6 +19,6 @@ public class RegexUtils {
     }
 
     public static String introductionRegex(String introduction) {
-        return introduction.replaceAll("\\u3000{2,}","<br>");
+        return introduction.replaceAll("\\u3000{2,}","\n");
     }
 }
