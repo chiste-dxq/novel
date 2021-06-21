@@ -2,6 +2,7 @@ package com.chiste.novel.controller.novel;
 
 import com.chiste.novel.common.base.ResultMap;
 import com.chiste.novel.common.util.ResultUtils;
+import com.chiste.novel.domain.novel.NovelContent;
 import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelContentListReqVo;
 import com.chiste.novel.service.novel.NovelContentService;
@@ -32,4 +33,11 @@ public class NovelContentController {
         reqVo.setId(id);
         return ResultUtils.success(novelContentService.queryContentByNovelId(reqVo));
     }
+
+    @PostMapping("/getContentById")
+    public ResultMap<NovelContent> getContentById(@RequestParam("id") Integer id){
+        return ResultUtils.success(novelContentService.getContentById(id));
+    }
+
+
 }

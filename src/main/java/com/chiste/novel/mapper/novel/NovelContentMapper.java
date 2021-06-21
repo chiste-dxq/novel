@@ -14,4 +14,6 @@ public interface NovelContentMapper extends Mapper<NovelContent> {
     int batchInsertNovelContent(List<NovelContentAddVo> list);
 
     List<NovelContentListResVo> queryContentByNovelId(NovelContentListReqVo reqVo);
+
+    NovelContent getContentById(Integer id);
 }

@@ -62,4 +62,9 @@ public class NovelContentServiceImpl implements NovelContentService {
         resVo.setContents(novelContentMapper.queryContentByNovelId(reqVo));
         return resVo;
     }
+
+    @Override
+    public NovelContent getContentById(Integer id) {
+        return novelContentMapper.getContentById(id);
+    }
 }

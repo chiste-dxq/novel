@@ -55,4 +55,18 @@
           </if>
         </where>
   </select>
+
+  <select id="getContentById" resultType="com.chiste.novel.domain.novel.NovelContent">
+    select
+      id,
+      chapter,
+      content,
+      novel_id    novelId
+    from t_novel_content
+    <where>
+      <if test="id!=null">
+        id=#{id}
+      </if>
+    </where>
+  </select>
 </mapper>

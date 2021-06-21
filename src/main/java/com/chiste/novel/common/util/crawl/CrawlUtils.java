@@ -72,7 +72,7 @@ public class CrawlUtils {
                     int count = 0;
                     for(Element element : listbg){
                         count++;
-                        if(count==6){
+                        if(count==2){
                             break;
                         }
                         NovelAddVo novel = new NovelAddVo();

@@ -13,4 +13,6 @@ public interface NovelContentService {
     int batchInsertNovelContent(List<NovelContentAddVo> list);
 
     NovelChapterResVo queryContentByNovelId(NovelContentListReqVo reqVo);
+
+    NovelContent getContentById(Integer id);
 }
