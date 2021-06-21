@@ -1,8 +1,5 @@
 package com.chiste.novel.common.util;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /*
  * @Author: daixq
  * @Date: 2021/5/28 13:58
@@ -19,5 +16,9 @@ public class RegexUtils {
         String pattern = "[\\u4e00-\\u9fa5|：]{0,}";
 
         return li.replaceAll(pattern,"");
+    }
+
+    public static String introductionRegex(String introduction) {
+        return introduction.replaceAll("\\u3000{2,}","<br>");
     }
 }

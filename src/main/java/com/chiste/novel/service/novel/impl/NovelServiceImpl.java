@@ -2,12 +2,10 @@ package com.chiste.novel.service.novel.impl;
 
 import com.chiste.novel.common.util.DateUtils;
 import com.chiste.novel.common.util.RandomValidateCodeUtils;
+import com.chiste.novel.common.util.RegexUtils;
 import com.chiste.novel.domain.novel.Novel;
 import com.chiste.novel.domain.novel.NovelCat;
-import com.chiste.novel.domain.novel.vo.NovelAddVo;
-import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
-import com.chiste.novel.domain.novel.vo.NovelListReqVo;
-import com.chiste.novel.domain.novel.vo.NovelListResVo;
+import com.chiste.novel.domain.novel.vo.*;
 import com.chiste.novel.mapper.novel.NovelCatMapper;
 import com.chiste.novel.mapper.novel.NovelMapper;
 import com.chiste.novel.service.novel.NovelService;
@@ -71,5 +69,12 @@ public class NovelServiceImpl implements NovelService {
     @Override
     public NovelChapterResVo getNovelOne(Integer id) {
         return novelMapper.getNovelOne(id);
+    }
+
+    @Override
+    public NovelDetailResVo getNovelDetail(NovelDetailReqVo reqVo) {
+        NovelDetailResVo resVo = novelMapper.getNovelDetail(reqVo);
+        resVo.setIntroduction(RegexUtils.introductionRegex(resVo.getIntroduction()));
+        return resVo;
     }
 }

@@ -85,4 +85,19 @@
   <select id="getNovelOne" parameterType="java.lang.Integer" resultType="com.chiste.novel.domain.novel.vo.NovelChapterResVo">
     select id,title,auditor from t_novel where id=#{id}
   </select>
+
+  <select id="getNovelDetail" parameterType="com.chiste.novel.domain.novel.vo.NovelDetailReqVo"
+    resultType="com.chiste.novel.domain.novel.vo.NovelDetailResVo">
+    select
+      novel.id              id,
+      novel.title           title,
+      novel.auditor         auditor,
+      novel.introduction    introduction,
+      novel.create_time     createTime,
+      count(chapter.id)     chapterNum,
+      '已完结'               novelStatus
+    from t_novel novel
+    left join t_novel_content chapter on chapter.novel_id=novel.id
+    where novel.id=#{id}
+  </select>
 </mapper>
