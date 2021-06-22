@@ -35,8 +35,8 @@ public class NovelContentController {
     }
 
     @PostMapping("/getContentById")
-    public ResultMap<NovelContent> getContentById(@RequestParam("id") Integer id){
-        return ResultUtils.success(novelContentService.getContentById(id));
+    public ResultMap<NovelContent> getContentById(@RequestParam("id") String id,@RequestParam("chapterId") String chapterId){
+        return ResultUtils.success(novelContentService.getContentById(id,chapterId));
     }
 
 

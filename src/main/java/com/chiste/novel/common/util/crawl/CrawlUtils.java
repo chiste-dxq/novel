@@ -69,12 +69,7 @@ public class CrawlUtils {
                     }
                     Element div = document.getElementById("catalog");
                     Elements listbg = div.select("div[class='listbg']");
-                    int count = 0;
                     for(Element element : listbg){
-                        count++;
-                        if(count==2){
-                            break;
-                        }
                         NovelAddVo novel = new NovelAddVo();
                         String bookName = element.select("a[class='img']").attr("title");
                         String bookUrl = element.select("a[class='img']").attr("href");

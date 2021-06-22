@@ -64,9 +64,16 @@
       novel_id    novelId
     from t_novel_content
     <where>
+      <if test="chapterId!=null and chapterId!='0'.toString()">
+        id=#{chapterId}
+      </if>
       <if test="id!=null">
-        id=#{id}
+        and novel_id=#{id}
       </if>
     </where>
+    <if test="chapterId==null or chapterId=='0'.toString()">
+      order by id
+      limit 1
+    </if>
   </select>
 </mapper>

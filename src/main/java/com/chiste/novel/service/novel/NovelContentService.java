@@ -14,5 +14,5 @@ public interface NovelContentService {
 
     NovelChapterResVo queryContentByNovelId(NovelContentListReqVo reqVo);
 
-    NovelContent getContentById(Integer id);
+    NovelContent getContentById(String id,String chapterId);
 }

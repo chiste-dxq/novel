@@ -15,5 +15,5 @@ public interface NovelContentMapper extends Mapper<NovelContent> {
 
     List<NovelContentListResVo> queryContentByNovelId(NovelContentListReqVo reqVo);
 
-    NovelContent getContentById(Integer id);
+    NovelContent getContentById(String id,String chapterId);
 }

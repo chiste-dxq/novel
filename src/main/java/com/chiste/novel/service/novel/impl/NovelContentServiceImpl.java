@@ -64,7 +64,7 @@ public class NovelContentServiceImpl implements NovelContentService {
     }
 
     @Override
-    public NovelContent getContentById(Integer id) {
-        return novelContentMapper.getContentById(id);
+    public NovelContent getContentById(String id,String chapterId) {
+        return novelContentMapper.getContentById(id,chapterId);
     }
 }
