@@ -32,7 +32,7 @@ public class JwtUtils {
         return token;
     }
 
-    /*
+    /**
      *这里就是产生jwt字符串的地方
      * jwt字符串包括三个部分
      *  1. header
@@ -45,8 +45,7 @@ public class JwtUtils {
      *      jti：JWT的唯一标识
      *      iss：签发人，一般都是username或者userId
      *      exp：过期时间
-     *
-     * */
+     **/
     public static String encode(String userCode, String password, Map<String, Object> claims) {
         //iss签发人，ttlMillis生存时间，claims是指还想要在jwt中存储的一些非隐私信息
         if (claims == null) {
