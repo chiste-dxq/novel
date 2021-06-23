@@ -95,7 +95,8 @@
       novel.introduction    introduction,
       novel.create_time     createTime,
       count(chapter.id)     chapterNum,
-      '已完结'               novelStatus
+      '已完结'               novelStatus,
+      type                  type
     from t_novel novel
     left join t_novel_content chapter on chapter.novel_id=novel.id
     where novel.id=#{id}

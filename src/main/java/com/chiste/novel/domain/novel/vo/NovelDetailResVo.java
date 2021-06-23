@@ -17,4 +17,5 @@ public class NovelDetailResVo {
     private String createTime;
     private String chapterNum;
     private String novelStatus;
+    private String type;
 }

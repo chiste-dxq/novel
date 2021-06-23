@@ -22,7 +22,7 @@
   </sql>
 
   <select id="findNovelCatByName" parameterType="java.lang.String" resultType="com.chiste.novel.domain.novel.NovelCat">
-    SELECT * from t_novel_cat where cat_name=#{name}
+    SELECT * from t_novel_cat where crawl_cat like CONCAT('%',#{name},'%')
   </select>
 
   <select id="queryNovelCat" resultType="com.chiste.novel.domain.novel.vo.NovelCatReqVo">
