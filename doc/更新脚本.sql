@@ -20,3 +20,6 @@ INSERT INTO `novel`.`t_crawl_novel_cat` (`id`, `source_id`, `cat_name`, `cat_hre
 INSERT INTO `novel`.`t_crawl_novel_cat` (`id`, `source_id`, `cat_name`, `cat_href`) VALUES (26, 7, '都市异能娱乐爽文', '/txt/dushi/');
 INSERT INTO `novel`.`t_crawl_novel_cat` (`id`, `source_id`, `cat_name`, `cat_href`) VALUES (27, 7, '历史架空铁血军旅', '/txt/tiexue/');
 INSERT INTO `novel`.`t_crawl_novel_cat` (`id`, `source_id`, `cat_name`, `cat_href`) VALUES (28, 7, '恐怖惊悚悬疑推理', '/txt/Kongbu/');
+
+
+INSERT INTO `novel`.`t_novel_cat` (`id`, `cat_code`, `cat_name`, `sort`, `create_time`, `create_user`, `update_time`, `update_user`) VALUES (50, '64', '历史架空', 1, '2021-06-09 17:44:40', 0, '2021-06-09 17:44:40', NULL);
