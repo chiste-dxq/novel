@@ -18,6 +18,12 @@ spring:
   thymeleaf:
     suffix: .html
     prefix: classpath:/templates/
+  rabbitmq:
+    addresses: localhost
+    username: guest
+    password: guest
+    open: true
+    port: 5672
 # 日志配置
 logging:
   level:

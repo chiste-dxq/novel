@@ -1,5 +1,6 @@
 package com.chiste.novel.service.novel.impl;
 
+import com.chiste.novel.common.util.RegexUtils;
 import com.chiste.novel.domain.novel.NovelContent;
 import com.chiste.novel.domain.novel.vo.NovelChapterResVo;
 import com.chiste.novel.domain.novel.vo.NovelContentAddVo;
@@ -65,6 +66,8 @@ public class NovelContentServiceImpl implements NovelContentService {
 
     @Override
     public NovelContent getContentById(String id,String chapterId) {
-        return novelContentMapper.getContentById(id,chapterId);
+        NovelContent content = novelContentMapper.getContentById(id,chapterId);
+        content.setContent(RegexUtils.introductionRegex(content.getContent()));
+        return content;
     }
 }

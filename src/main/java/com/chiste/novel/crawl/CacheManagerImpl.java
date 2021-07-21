@@ -25,7 +25,7 @@ public class CacheManagerImpl implements ICacheManager {
     }
 
     /**
-   s  * 存入缓存
+     * 存入缓存
      * @param key
      * @param datas
      * @param timeOut

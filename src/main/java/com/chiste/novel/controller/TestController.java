@@ -1,5 +1,9 @@
 package com.chiste.novel.controller;
 
+import com.chiste.novel.common.rabbitmq.constant.RabbitMQConstant;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 
 /*
  * @Author: daixq
@@ -19,6 +24,9 @@ import java.io.OutputStream;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
 
     @PostMapping("/uploadFile")
     public void uploadFile(@RequestParam("uploadFile") MultipartFile uploadFile){
@@ -28,6 +36,16 @@ public class TestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @PostMapping("/test")
+    public void test(){
+        System.out.println("DeadLetterSender 发送时间:" + LocalDateTime.now().toString() + " msg内容：" + "测试延时消费");
+        rabbitTemplate.convertAndSend(RabbitMQConstant.DELAY_MSG_EXCHANGE,RabbitMQConstant.DELAY_MSG_KEY, "测试延时消费", message -> {
+            message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+            message.getMessageProperties().setDelay(3000);
+            return message;
+        });
     }
 
     public File multipartFileToFile(MultipartFile file) throws Exception {
